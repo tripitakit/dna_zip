@@ -18,7 +18,7 @@ defmodule DnaZipTest do
     assert c == 0b11
   end
 
-  test "inflate encoded DNA sequence" do
+  test "inflate a compressed sequence bitstring" do
     test_seq = "GATTACA"
     test_id = "gattaca-test"
 
@@ -34,5 +34,37 @@ defmodule DnaZipTest do
     assert decoded_seq_lenght == String.length(test_seq)
     assert decoded_seq_id == test_id
     assert decoded_seq == test_seq
+  end
+
+  test "1000 random-lenght random-sequence compress/inflate " do
+    for i <- 0..999 do
+      len = :random.uniform(512) + :random.uniform(512)
+
+      test_seq =
+        Enum.reduce(
+          1..len,
+          "",
+          fn _i, acc ->
+            [nt] = ["G", "A", "T", "C"] |> Enum.take_random(1)
+
+            acc <> nt
+          end
+        )
+
+      test_id = "random-test-#{i}"
+
+      {:ok, compressed} = DnaZip.compress(test_id, test_seq)
+
+      {:ok,
+       %{
+         length: decoded_seq_lenght,
+         seq_id: decoded_seq_id,
+         seq: decoded_seq
+       }} = DnaZip.inflate(compressed)
+
+      assert decoded_seq_lenght == String.length(test_seq)
+      assert decoded_seq_id == test_id
+      assert decoded_seq == test_seq
+    end
   end
 end
