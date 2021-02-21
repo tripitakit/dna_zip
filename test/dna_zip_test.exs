@@ -38,19 +38,7 @@ defmodule DnaZipTest do
 
   test "1000 random-lenght random-sequence compress/inflate " do
     for i <- 0..999 do
-      len = :random.uniform(512) + :random.uniform(512)
-
-      test_seq =
-        Enum.reduce(
-          1..len,
-          "",
-          fn _i, acc ->
-            [nt] = ["G", "A", "T", "C"] |> Enum.take_random(1)
-
-            acc <> nt
-          end
-        )
-
+      test_seq = random_seq()
       test_id = "random-test-#{i}"
 
       {:ok, compressed} = DnaZip.compress(test_id, test_seq)
@@ -66,5 +54,19 @@ defmodule DnaZipTest do
       assert decoded_seq_id == test_id
       assert decoded_seq == test_seq
     end
+  end
+
+  defp random_seq() do
+    len = :random.uniform(512) + :random.uniform(512)
+
+    Enum.reduce(
+      1..len,
+      "",
+      fn _i, acc ->
+        [nt] = ["G", "A", "T", "C"] |> Enum.take_random(1)
+
+        acc <> nt
+      end
+    )
   end
 end
