@@ -8,7 +8,7 @@ defmodule DnaZip.Encoder do
 
   @seq_id_size 124
 
-  @spec compress(binary, binary) :: {:ok, binary}
+  @spec compress(binary, binary) :: {:ok, bitstring}
   def compress(seq_id, sequence) when is_binary(seq_id) and is_binary(sequence) do
     seq_bit_size = String.length(sequence) * 2
 
@@ -28,7 +28,7 @@ defmodule DnaZip.Encoder do
         end
       )
 
-    # padding the last byte with 0 to encode a valid binary
+    # padding the last byte with 0
     padding_bits = 8 - rem(bit_size(encoded), 8)
 
     encoded =
@@ -38,6 +38,6 @@ defmodule DnaZip.Encoder do
         encoded
       end
 
-    {:ok, <<seq_bit_size::4*8, seq_id::binary, encoded::binary>>}
+    {:ok, <<seq_bit_size::4*8, seq_id::binary, encoded::bitstring>>}
   end
 end

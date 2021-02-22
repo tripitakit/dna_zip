@@ -21,8 +21,8 @@ defmodule DnaZipTest do
   end
 
   test "inflate a compressed sequence bitstring" do
-    test_seq = "GATTACA"
-    test_id = "gattaca-test"
+    test_seq = "GATTACAGC"
+    test_id = "gattacagc-test"
 
     {:ok, compressed} = DnaZip.compress(test_id, test_seq)
 
