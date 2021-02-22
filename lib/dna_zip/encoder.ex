@@ -14,7 +14,7 @@ defmodule DnaZip.Encoder do
 
     seq_id =
       seq_id
-      |> String.slice(0..@seq_id_size)
+      |> String.slice(0..(@seq_id_size - 1))
       |> String.pad_trailing(@seq_id_size)
 
     encoded =

@@ -38,6 +38,26 @@ defmodule DnaZipTest do
     assert decoded_seq == test_seq
   end
 
+  test "inflate a compressed sequence bitstring with 130char long label" do
+    test_seq = "GATTACAGC"
+
+    test_id =
+      "test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-test-1234567890"
+
+    {:ok, compressed} = DnaZip.compress(test_id, test_seq)
+
+    {:ok,
+     %{
+       length: decoded_seq_lenght,
+       seq_id: decoded_seq_id,
+       seq: decoded_seq
+     }} = DnaZip.inflate(compressed)
+
+    assert decoded_seq_lenght == String.length(test_seq)
+    assert decoded_seq_id == String.slice(test_id, 0..(@seq_id_size - 1))
+    assert decoded_seq == test_seq
+  end
+
   test "1000 random-lenght random-sequence compress/inflate " do
     for i <- 333..999 do
       test_seq = random_seq()
@@ -56,6 +76,25 @@ defmodule DnaZipTest do
       assert decoded_seq_id == test_id
       assert decoded_seq == test_seq
     end
+  end
+
+  test "create db from multifasta file and read it back" do
+    input_file = "tmp/mixedlength-longlabels.fasta"
+    input_squences = BioElixir.SeqIO.read_fasta_file(input_file)
+
+    {:ok, mixedlong_dnz} = DnaZip.Database.create_db("mixedlong", input_file)
+
+    assert mixedlong_dnz == "tmp/mixedlong.dnz"
+
+    {:ok, test_sequences} = DnaZip.Database.read_db(mixedlong_dnz)
+
+    assert Enum.count(input_squences) == Enum.count(test_sequences)
+
+    first_input = List.first(input_squences)
+    last_test = List.last(test_sequences)
+
+    assert last_test.seq == first_input.seq
+    assert last_test.seq_id == String.slice(first_input.display_id, 0..(@seq_id_size - 1))
   end
 
   defp random_seq() do
