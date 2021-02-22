@@ -3,27 +3,25 @@ defmodule DnaZip do
 
   ## compress
 
-  compress binary DNA sequences with a 2-bit-nucleotide encoding stored
-  as a bitstring along with the sequence bit-size and a 20 characters identifier.
+  Compresses a binary DNA sequence into 2-bit-nucleotide encoded bitstring
+  along with its bit-size and an identifier:
 
-  <<seq_bit_size::4*8, seq_id:binary-size(20), seq:bitstring>>
+  <<seq_bit_size::4*8, seq_id:binary-size(124), seq:bitstring>>
 
-   iex> {:ok, compressed} = DnaZip.compress("Test-oligo", "GATGCGTGCCGAA")
-
-  {:ok, <<0, 0, 0, 26, 84, 101, 115, 116, 45, 111, 108, 105, 103, 111, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 134, 230, 248, 0::size(2)>>}
-
-
+  {:ok, compressed} = DnaZip.compress("Test-oligo", "GATGCGTGCCGAA")
 
   ## inflate
 
-  inflate a compressed sequence's bitstring to ccess the internal properties:
-
-  iex> {:ok, inflated} = DnaZip.inflate(<<0, 0, 0, 26, 84, 101, 115, 116, 45, 111, 108, 105, 103, 111, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 134, 230, 248, 0::size(2)>>)
+  Inflates a 2-bit compressed sequence's bitstring into a sequence Map.
 
   {:ok, %{length: 13, seq: "GATGCGTGCCGAA", seq_id: "Test-oligo"}}
+  S
   """
 
+  @spec compress(binary, binary) :: {:ok, bitstring}
   defdelegate compress(seq_id, sequence), to: DnaZip.Encoder
 
+  @spec inflate(bitstring) ::
+          {:ok, %{length: non_neg_integer, seq: bitstring, seq_id: binary}}
   defdelegate inflate(compressed), to: DnaZip.Decoder
 end

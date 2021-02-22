@@ -2,15 +2,17 @@ defmodule DnaZipTest do
   use ExUnit.Case
   doctest DnaZip
 
+  @seq_id_size 124
+
   test "compress a DNA sequence" do
     test_seq_id = "oligonucletide"
     test_seq = "ATGC"
     {:ok, compressed} = DnaZip.compress(test_seq_id, test_seq)
 
-    <<seq_bit_size::binary-size(4), seq_id::binary-size(20), a::1*2, t::1*2, g::1*2, c::1*2>> =
-      compressed
+    <<seq_bit_size::binary-size(4), seq_id::binary-size(@seq_id_size), a::1*2, t::1*2, g::1*2,
+      c::1*2>> = compressed
 
-    assert seq_id == String.pad_trailing(test_seq_id, 20)
+    assert seq_id == String.pad_trailing(test_seq_id, @seq_id_size)
     assert seq_bit_size == <<8::4*8>>
     assert a == 0b00
     assert t == 0b01
@@ -37,7 +39,7 @@ defmodule DnaZipTest do
   end
 
   test "1000 random-lenght random-sequence compress/inflate " do
-    for i <- 0..999 do
+    for i <- 333..999 do
       test_seq = random_seq()
       test_id = "random-test-#{i}"
 

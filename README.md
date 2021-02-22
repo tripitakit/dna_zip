@@ -1,21 +1,5 @@
 # DnaZip
 
-**TODO: Add description**
+Implements 2-bits encoded DNA sequences in Elixir.
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `dna_zip` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:dna_zip, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/dna_zip](https://hexdocs.pm/dna_zip).
 

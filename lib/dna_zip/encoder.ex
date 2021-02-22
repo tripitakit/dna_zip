@@ -1,18 +1,21 @@
 defmodule DnaZip.Encoder do
   @encode %{
-    "A" => <<0::1*2>>,
-    "T" => <<1::1*2>>,
-    "G" => <<2::1*2>>,
-    "C" => <<3::1*2>>
+    "A" => <<0b00::size(2)>>,
+    "T" => <<0b01::size(2)>>,
+    "G" => <<0b10::size(2)>>,
+    "C" => <<0b11::size(2)>>
   }
 
-  def compress(seq_id, sequence) do
+  @seq_id_size 124
+
+  @spec compress(binary, binary) :: {:ok, bitstring}
+  def compress(seq_id, sequence) when is_binary(seq_id) and is_binary(sequence) do
     seq_bit_size = String.length(sequence) * 2
 
     seq_id =
       seq_id
-      |> String.slice(0..20)
-      |> String.pad_trailing(20)
+      |> String.slice(0..@seq_id_size)
+      |> String.pad_trailing(@seq_id_size)
 
     compressed =
       sequence
