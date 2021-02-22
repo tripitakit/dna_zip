@@ -1,0 +1,4 @@
+%{
+  "bio_elixir": {:git, "https://github.com/tripitakit/bio_elixir.git", "53272e28f4f53db247019b4a6026e0b8f8c05448", []},
+  "parallel": {:hex, :parallel, "0.0.3", "d1c9a03f0fd6c85ba174938b9823db51e01a68f9f0e76e3f3e11989cbeb607e7", [:mix], [], "hexpm", "d9b5e98c1892f5376b4dfa28c48a3a17029f86a28d1f9ec2f7c1a2747f256a4d"},
+}
