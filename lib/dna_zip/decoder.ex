@@ -16,6 +16,7 @@ defmodule DnaZip.Decoder do
 
     seq_nt_length = div(seq_bit_size, 2)
 
+    # remove trailing A (the side effect of last byte's bits padding in encoding)
     maybe_trim =
       if rem(seq_nt_length, 4) == 0 do
         seq_nt_length

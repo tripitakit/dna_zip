@@ -28,7 +28,7 @@ defmodule DnaZip.Encoder do
         end
       )
 
-    # padding the last byte with 0
+    # padding the last byte with zeros
     padding_bits = 8 - rem(bit_size(encoded), 8)
 
     encoded =
