@@ -1,6 +1,6 @@
 defmodule DnaZip.Database do
   alias BioElixir.{Seq, SeqIO}
-  alias DnaZip.{Encoder}
+  alias DnaZip.{Encoder, Decoder}
   require Logger
 
   def create_db(name, multifasta_path) do
@@ -47,7 +47,7 @@ defmodule DnaZip.Database do
         seq_bytes_size = seq_bytes_size + 128
         {:ok, data} = :file.pread(pid, start, seq_bytes_size)
 
-        {:ok, seq} = DnaZip.Decoder.inflate(data)
+        {:ok, seq} = Decoder.inflate(data)
 
         acc = [seq | acc]
 

@@ -82,15 +82,15 @@ defmodule DnaZipTest do
     input_file = "tmp/mixedlength-longlabels.fasta"
     input_squences = BioElixir.SeqIO.read_fasta_file(input_file)
 
-    {:ok, mixedlong_dnz} = DnaZip.Database.create_db("mixedlong", input_file)
+    {:ok, mixedlong_dnz} = DnaZip.create_db("mixedlong", input_file)
 
     assert mixedlong_dnz == "tmp/mixedlong.dnz"
 
-    {:ok, test_sequences} = DnaZip.Database.read_db(mixedlong_dnz)
+    {:ok, test_sequences} = DnaZip.read_db(mixedlong_dnz)
 
     assert Enum.count(input_squences) == Enum.count(test_sequences)
 
-    first_input = List.first(input_squences)
+    %BioElixir.Seq{} = first_input = List.first(input_squences)
     last_test = List.last(test_sequences)
 
     assert last_test.seq == first_input.seq

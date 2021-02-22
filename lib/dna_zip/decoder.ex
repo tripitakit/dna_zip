@@ -30,7 +30,8 @@ defmodule DnaZip.Decoder do
      %{
        seq_id: String.trim_trailing(seq_id, " "),
        length: seq_nt_length,
-       seq: nt_seq
+       seq: nt_seq,
+       encoded_seq: seq
      }}
   end
 
