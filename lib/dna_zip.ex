@@ -1,5 +1,5 @@
 defmodule DnaZip do
-  @spec compress(binary, binary) :: {:ok, bitstring}
+  @spec compress(binary, binary) :: {:ok, binary}
   defdelegate compress(seq_id, sequence), to: DnaZip.Encoder
 
   @spec inflate(bitstring) ::

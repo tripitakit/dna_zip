@@ -28,6 +28,7 @@ defmodule DnaZip.Encoder do
         end
       )
 
+    # padding the last byte with 0 to encode a valid binary
     padding_bits = 8 - rem(bit_size(encoded), 8)
 
     encoded =
@@ -37,6 +38,6 @@ defmodule DnaZip.Encoder do
         encoded
       end
 
-    {:ok, <<seq_bit_size::4*8, seq_id::binary, encoded::bitstring>>}
+    {:ok, <<seq_bit_size::4*8, seq_id::binary, encoded::binary>>}
   end
 end
