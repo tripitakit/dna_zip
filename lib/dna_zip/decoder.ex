@@ -4,9 +4,9 @@ defmodule DnaZip.Decoder do
 
   @decode %{
     0b00 => "A",
-    0b01 => "T",
+    0b01 => "C",
     0b10 => "G",
-    0b11 => "C"
+    0b11 => "T"
   }
 
   @seq_id_size 124

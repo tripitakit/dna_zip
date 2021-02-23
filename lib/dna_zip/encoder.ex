@@ -1,9 +1,9 @@
 defmodule DnaZip.Encoder do
   @encode %{
     "A" => <<0b00::size(2)>>,
-    "T" => <<0b01::size(2)>>,
+    "C" => <<0b01::size(2)>>,
     "G" => <<0b10::size(2)>>,
-    "C" => <<0b11::size(2)>>
+    "T" => <<0b11::size(2)>>
   }
 
   @seq_id_size 124

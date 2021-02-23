@@ -5,19 +5,19 @@ defmodule DnaZipTest do
   @seq_id_size 124
 
   test "compress a DNA sequence" do
-    test_seq_id = "oligonucletide"
-    test_seq = "ATGC"
+    test_seq_id = "oligonucletide-test-acgt"
+    test_seq = "ACGT"
     {:ok, compressed} = DnaZip.compress(test_seq_id, test_seq)
 
-    <<seq_bit_size::binary-size(4), seq_id::binary-size(@seq_id_size), a::1*2, t::1*2, g::1*2,
-      c::1*2>> = compressed
+    <<seq_bit_size::binary-size(4), seq_id::binary-size(@seq_id_size), a::1*2, c::1*2, g::1*2,
+      t::1*2>> = compressed
 
     assert seq_id == String.pad_trailing(test_seq_id, @seq_id_size)
     assert seq_bit_size == <<8::4*8>>
     assert a == 0b00
-    assert t == 0b01
+    assert c == 0b01
     assert g == 0b10
-    assert c == 0b11
+    assert t == 0b11
   end
 
   test "inflate a compressed sequence bitstring" do
